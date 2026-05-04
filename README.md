@@ -68,24 +68,31 @@ vue-app-market-place/
 ## Key Features
 
 ### 1. Dual Payment Integration
-- Paystack and Stripe both available at checkout — customer's choice.
-- Server-side payment verification for both providers.
+- Paystack and Stripe are both available at checkout — the customer selects their preferred provider.
+- Server-side verification endpoints confirm payment authenticity for both providers before order fulfilment.
+- Stripe uses Payment Intents; Paystack uses the inline popup with reference-based callback verification.
+- Graceful handling of cancelled or failed payments with user-facing feedback and cart preservation.
 
 ### 2. Role-Based Access Control
-- Customers, Sellers, and Admins each have scoped dashboards and route guards.
-- Seller signup flow with admin approval before listing products.
+- Customers, Sellers, and Admins each have fully scoped dashboards with role-gated navigation.
+- Vue Router guards enforce frontend access control based on Pinia auth store state.
+- Backend Express middleware validates JWT claims and role on every protected route independently.
+- Dedicated seller signup flow: new sellers enter a pending state until an admin explicitly approves them.
 
 ### 3. Seller Storefronts
-- Each seller has a public-facing storefront listing their products.
-- Sellers manage inventory via a private dashboard.
+- Each seller has a public-facing storefront page aggregating all their active listings with contact details.
+- Sellers manage their product inventory (add, edit, delist) through a private dashboard view.
+- Storefront pages are dynamically routed by seller ID and cached for fast public browsing.
 
 ### 4. Admin Control Center
-- Verify or reject pending seller applications.
-- Moderate listings and manage platform-wide users.
+- Pending seller approval queue with one-click approve/reject actions and status feedback.
+- Product moderation tools for reviewing and removing non-compliant or flagged listings.
+- Platform-wide user management: view all accounts, roles, registration dates, and account statuses.
 
 ### 5. Full Order Lifecycle
-- Cart to checkout (select payment) to order confirmation to detailed order view.
-- Real-time order status updates for both customers and sellers.
+- Seamless flow: cart assembly → payment provider selection → checkout → confirmation → order detail view.
+- Order status updates (Pending, Processing, Shipped, Delivered) visible in real time for customers.
+- Sellers receive a live order feed with per-item fulfilment controls and order history.
 
 ---
 
@@ -105,4 +112,8 @@ VITE_API_URL=http://localhost:5000
 VITE_STRIPE_PUBLIC_KEY=pk_test_...
 VITE_PAYSTACK_PUBLIC_KEY=pk_test_...
 ```
+
+---
+
+Developed as part of the FixNuewYearBug project portfolio. Last updated May 2026.
 
